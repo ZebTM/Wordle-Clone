@@ -7,7 +7,6 @@
 .characterBox {
     font-size: large;
     pointer-events:none;
-    background-color: grey;
     border-radius: 1;
     border-width: 1px;
     border-color: red;
@@ -20,6 +19,18 @@
     text-align: center;
 }
 
-.activeRow {
+.Unanswered {
+    background-color: grey;
     pointer-events: auto;
+}
+.Correct {
+    background-color: green;
+}
+
+.Partial { 
+    background-color: yellow;
+}
+
+.Wrong {
+    background-color: grey;
 }
