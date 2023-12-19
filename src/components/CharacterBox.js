@@ -3,12 +3,11 @@ import './ComponentStyling.css'
 
 export default function CharacterBox(props) {
     const id = useId()
-    const letter = props.letter ? props.letter : ''
-    const [char, setChar] = useState(letter)
-
-    function ValidateInput(value) {
-        value = value.replace(/\W|\d/g, '').substr(0, 1).toUpperCase();
-        console.log(value)
+    const char = props.letter;
+    const setChar = props.setChar;
+    function ValidateInput(e) {
+        console.log(e)
+        setChar(e)
     }
 
 
