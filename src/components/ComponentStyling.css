@@ -16,6 +16,8 @@
 
 .characterBox2 {
     background-color: grey;
+    text-transform: uppercase;
+    text-align: center;
 }
 
 .activeRow {
