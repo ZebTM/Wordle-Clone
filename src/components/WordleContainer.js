@@ -1,41 +1,77 @@
 'use client'
 import Row from '@/components/Row'
+import { CharacterState } from '@/enums/CharacterState';
 import { useState } from 'react'
 
 export default function WordleContainer( props ) {
 	const secretWord = 'Texts';
     const [ activeRowIndex, setActiveRowIndex ] = useState(0);
-	const [ row, setRow] = useState([ '', '', '', '', '' ]);
-	// const [ row2, setRow2] = useState([ '', '', '', '', '' ]);
-	// const [ row3, setRow3] = useState([ '', '', '', '', '' ]);
-	// const [ row4, setRow4] = useState([ '', '', '', '', '' ]);
-	// const [ row5, setRow5] = useState([ '', '', '', '', '' ]);
-	// const [ row6, setRow6] = useState([ '', '', '', '', '' ]);
-	// const rows = [ row1, row2, row3, row4, row5, row6 ];
-	
-	function verifyRow(row) {
-		row.map((letter, index) => {
-			if (letter === secretWord.charAt(index)) {
+	const [ activeRow, setActiveRow] = useState([ '', '', '', '', '' ]);
+	const [ previousRows, setPreviousRows ] = useState([]);
+	const [ columnStates, setColumnStates ] = useState([
+		[ CharacterState.Unanswered, CharacterState.Unanswered, CharacterState.Unanswered, CharacterState.Unanswered, CharacterState.Unanswered ],
+		[ CharacterState.Unanswered, CharacterState.Unanswered, CharacterState.Unanswered, CharacterState.Unanswered, CharacterState.Unanswered ],
+		[ CharacterState.Unanswered, CharacterState.Unanswered, CharacterState.Unanswered, CharacterState.Unanswered, CharacterState.Unanswered ],
+		[ CharacterState.Unanswered, CharacterState.Unanswered, CharacterState.Unanswered, CharacterState.Unanswered, CharacterState.Unanswered ],
+		[ CharacterState.Unanswered, CharacterState.Unanswered, CharacterState.Unanswered, CharacterState.Unanswered, CharacterState.Unanswered ],
+		[ CharacterState.Unanswered, CharacterState.Unanswered, CharacterState.Unanswered, CharacterState.Unanswered, CharacterState.Unanswered ],
+	])
 
+	function verifyRow(row) {
+		let retVal = true
+		for (let i = 0; i < 5; i++) {
+			if (secretWord.charAt(i) !== row[i]) {
+				retVal = false
+				break
 			}
-		});
+		}
+		return retVal;
+	}
+
+	function createNewColumnStates(row) {
+		let columnStates = []
+		for (let i = 0; i < 5; i++) {
+			if (secretWord.charAt(i).toUpperCase() === row[i].toUpperCase()) {
+				columnStates[i] = CharacterState.Correct
+			} else {
+				let includesChar = secretWord.toUpperCase()
+					.includes(row[i].toUpperCase());
+				if (includesChar) {
+					columnStates[i] = CharacterState.Partial
+				} else {
+					columnStates[i] = CharacterState.Wrong
+				}
+			}
+		}
+		return columnStates;
+	}
+	
+
+	function clearActiveRow() {
+		setActiveRow(['', '', '', '', ''])
 	}
 
 	function submitRow() {
 		if (activeRowIndex < 5) {
-			let activeRow = rows[activeRowIndex]
-			// Verify the row does not contain any empty strings
-			// let tmp = activeRow.find((item) => item === '');
+			// Verify the row does not contain any empty strings=
 			if ( activeRow.find((item) => item === '') === undefined ) {
-				verifyRow(activeRow);
-				setActiveRowIndex( activeRowIndex + 1 )
-			} else {
+				if ( verifyRow(activeRow) ) {
+					alert("YOU WIN")
+				} else {
+					columnStates[activeRowIndex] = createNewColumnStates(activeRow)
+					setColumnStates(columnStates)
+					previousRows.push(activeRow)
+					setPreviousRows(previousRows)
+					console.log(previousRows)
+					clearActiveRow();
+					setActiveRowIndex(activeRowIndex + 1);
 
+					console.log(columnStates);
+				}
+			} else {
+				console.log("Fill out all the boxes")
 			}
 
-
-
-			
 			console.log('Row is now: ' + activeRowIndex)
 		}
 		else {
@@ -43,38 +79,22 @@ export default function WordleContainer( props ) {
 			console.log('Start a new game to continue')
 		}
 	};
-
+	const emptyRow = [ '', '', '', '', '']
 	return (
 		<main>
-			<Row chars={row} setChars={setRow} isRowActive={activeRowIndex === 0} />
-			{/* <Row chars={row2} setChars={setRow2} isRowActive={activeRowIndex === 1} />
-			<Row chars={row3} setChars={setRow3} isRowActive={activeRowIndex === 2} />
-			<Row chars={row4} setChars={setRow4} isRowActive={activeRowIndex === 3} />
-			<Row chars={row5} setChars={setRow5} isRowActive={activeRowIndex === 4} />
-			<Row chars={row6} setChars={setRow6} isRowActive={activeRowIndex === 5} />   */}
+			<Row columns={activeRowIndex === 0 ? activeRow : activeRow > 0 ? previousRows[0] : emptyRow } setColumns={setActiveRow} columnStatuses={ columnStates[0] } />
+			<Row columns={activeRowIndex === 1 ? activeRow : activeRow > 1 ? previousRows[1] : emptyRow } setColumns={setActiveRow} columnStatuses={ columnStates[1] } />
+			<Row columns={activeRowIndex === 2 ? activeRow : activeRow > 2 ? previousRows[2] : emptyRow } setColumns={setActiveRow} columnStatuses={ columnStates[2] } />
 			<button onClick={submitRow} > ENTER </button>
 			<button className='newGame' onClick={newGame}> New Game </button>
 		</main>
 	)
 };
 
-// function enter(activeRow, setActiveRow) {
-// 	if (activeRow < 5) {
-// 		setActiveRow( activeRow + 1 )
-// 		console.log('Row is now: ' + activeRow)
-// 	}
-// 	else {
-// 		console.log('Can not increment row anymore game is over')
-// 	}
-// };
-
 function newGame() {
   	clearRows()
 };
 
 function clearRows() {
-
-
-
 
 };
