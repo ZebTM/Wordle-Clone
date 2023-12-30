@@ -1,0 +1,96 @@
+@import '../css/colors.scss';
+
+
+:root {
+    --color-present: var(--yellow-3);
+    --color-correct: var(--green);
+    --color-absent: var(--color-tone-2);
+    --tile-text-color: var(--color-tone-7);
+    --key-text-color: var(--color-tone-1);
+    --key-evaluated-text-color: var(--color-tone-7);
+    --key-bg: var(--color-tone-4);
+    --key-bg-present: var(--color-present);
+    --key-bg-correct: var(--color-correct);
+    --key-bg-absent: var(--color-absent);
+    --key-evaluated-text-color: var(--color-tone-7);
+    --key-evaluated-text-color-absent: var(--white);
+    --modal-content-bg: var(--color-tone-7);
+    --outline-focus: var(--outlineBlue);
+    --color-correct-high-contrast: var(--wordle-high-contrast-green);
+}
+
+
+.row {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-gap: 5px;
+}
+
+.characterBox {
+    width: 100%;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2rem;
+    line-height: 1;
+    font-weight: bold;
+    vertical-align: middle;
+    box-sizing: border-box;
+    color: var(--tile-text-color);
+    text-transform: uppercase;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+}
+
+.Unanswered {
+    background-color: white;
+    pointer-events: auto;
+}
+.Correct {
+    background-color: green;
+}
+
+.Partial { 
+    background-color: yellow;
+}
+
+.Wrong {
+    background-color: grey;
+}
+
+.header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    flex-wrap: nowrap;
+    padding: 0px var(--header-padding-x);
+    height: var(--header-height);
+    color: var(--color-tone-1);
+    border-bottom: 1px solid var(--color-tone-4);
+}
+
+.dashed {
+    border-top: 3px solid #bbb;
+}
+
+.header-menu-left {
+    display: flex;
+    margin: 0;
+    padding: 0;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.header-title {
+    text-align: center;
+}
+
+.row {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-grow: 1;
+    overflow: hidden;
+}

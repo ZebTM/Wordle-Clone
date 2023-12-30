@@ -43,7 +43,79 @@ export default function WordleContainer( props ) {
 				}
 			}
 		}
+
+		let partialIndex = columnStates.find((state) => state === CharacterState.Partial);
+		if (partialIndex !== undefined) {
+			let occurenceOfRow = countOccurenceOfLetters(row);
+			let occurenceOfSecret = countOccurenceOfLetters(secretWord);
+			// need to just count up the number times a letter appears in the word and secret word
+			let indexsOfPartial = []
+			let indexsOfCorrect = []
+			for (let i = 0; i < 5; i++) {
+				if (columnStates[i] === CharacterState.Partial) {
+					indexsOfPartial.push(i);
+				} else if (columnStates[i] === CharacterState.Correct) {
+					indexsOfCorrect.push(i);
+				}
+			}
+
+			console.log('CORRECT INDEXES: ' + indexsOfCorrect);
+			console.log('PARTIAL INDEXES: ' + indexsOfPartial);
+			let charThatNeedCorrected = [];
+			for (let i = 0; i < indexsOfPartial.length; i++) {
+				let index = indexsOfPartial[i]
+				let char = row[index].toUpperCase();
+				if (occurenceOfRow[char] > occurenceOfSecret[char] ) {
+					charThatNeedCorrected.push(char)
+				}
+			}
+			// for (let i = 0; i < charThatNeedCorrected.length; i++) {
+			// 	lastIndexOfChar = 0;
+			// 	foundChar = 0;
+			// 	for(let j = 0; j < 5; j++) {
+			// 		if (  )
+			// 	}
+			// }
+			console.log('CHAR THAT NEED CORRECTED: ' + charThatNeedCorrected);
+		}
+		
 		return columnStates;
+	}
+
+	function countOccurenceOfLetters(word) {
+		let occurenceOfLetters = {}
+		let typeOf = typeof(word) 
+		switch (typeOf) {
+			case 'string':
+				for (let i = 0; i < 5; i++) {
+					let char = word.charAt(i).toUpperCase();
+					if (char in occurenceOfLetters) {
+						occurenceOfLetters[char] += 1
+					} else {
+						occurenceOfLetters[char] = 1
+					}
+				}
+				break;
+			case 'object':
+				if (Array.isArray(word)) {
+					for (let i = 0; i < 5; i++) {
+						let char = word[i].toUpperCase();
+						if (char in occurenceOfLetters) {
+							occurenceOfLetters[char] += 1
+						} else {
+							occurenceOfLetters[char] = 1
+						}
+					}
+				}
+				else {
+					console.log('Can not do this type')
+				}
+				break;
+			default:
+				console.log('Can not do this type')
+		}
+
+		return occurenceOfLetters
 	}
 	
 
@@ -82,9 +154,12 @@ export default function WordleContainer( props ) {
 	const emptyRow = [ '', '', '', '', '']
 	return (
 		<main>
-			<Row columns={activeRowIndex === 0 ? activeRow : activeRow > 0 ? previousRows[0] : emptyRow } setColumns={setActiveRow} columnStatuses={ columnStates[0] } />
-			<Row columns={activeRowIndex === 1 ? activeRow : activeRow > 1 ? previousRows[1] : emptyRow } setColumns={setActiveRow} columnStatuses={ columnStates[1] } />
-			<Row columns={activeRowIndex === 2 ? activeRow : activeRow > 2 ? previousRows[2] : emptyRow } setColumns={setActiveRow} columnStatuses={ columnStates[2] } />
+			<Row className="row" columns={activeRowIndex === 0 ? activeRow : activeRow > 0 ? previousRows[0] : emptyRow } setColumns={setActiveRow} columnStatuses={ columnStates[0] } />
+			<Row className="row" columns={activeRowIndex === 1 ? activeRow : activeRow > 1 ? previousRows[1] : emptyRow } setColumns={setActiveRow} columnStatuses={ columnStates[1] } />
+			<Row className="row" columns={activeRowIndex === 2 ? activeRow : activeRow > 2 ? previousRows[2] : emptyRow } setColumns={setActiveRow} columnStatuses={ columnStates[2] } />
+			<Row className="row" columns={activeRowIndex === 3 ? activeRow : activeRow > 3 ? previousRows[3] : emptyRow } setColumns={setActiveRow} columnStatuses={ columnStates[3] } />
+			<Row className="row" columns={activeRowIndex === 4 ? activeRow : activeRow > 4 ? previousRows[4] : emptyRow } setColumns={setActiveRow} columnStatuses={ columnStates[4] } />
+			<Row className="row" columns={activeRowIndex === 5 ? activeRow : activeRow > 5 ? previousRows[5] : emptyRow } setColumns={setActiveRow} columnStatuses={ columnStates[5] } />
 			<button onClick={submitRow} > ENTER </button>
 			<button className='newGame' onClick={newGame}> New Game </button>
 		</main>

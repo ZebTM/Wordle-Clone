@@ -1,6 +1,6 @@
 import CharacterBox from "./CharacterBox";
 import { useEffect, useState } from "react";
-import './ComponentStyling.css'
+import './ComponentStyling.scss'
 
 /**
  * 

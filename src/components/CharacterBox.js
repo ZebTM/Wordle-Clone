@@ -1,5 +1,5 @@
 import { useState, useId } from "react"
-import './ComponentStyling.css'
+import './ComponentStyling.scss'
 
 export default function CharacterBox({
         column,
