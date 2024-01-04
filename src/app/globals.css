@@ -33,3 +33,7 @@ body {
 .newGame {
   float: right
 }
+
+.rootComponent {
+  height: calc(100% - 210px);
+}

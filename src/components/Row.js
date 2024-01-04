@@ -8,23 +8,14 @@ import './ComponentStyling.scss'
  * @returns 
  */
 export default function Row({
-        columnStatuses,
-        columns,
-        setColumns,
+        rowIndex,
+        string
     }) {
-
+        
     return (
         <div className="row">
-            {columns.map((column, index) => 
-                <div className='characterBox'>
-                    <CharacterBox
-                        status={columnStatuses[index]}
-                        letter={column}
-                        setColumn={setColumns}
-                        index={index}
-                        columns={columns}
-                    />
-                </div>  
+            {string.split("").map((char, index) => 
+                <CharacterBox char={char} key={`${rowIndex}` + `${index}`} /> 
             )}
         </div>
     )

@@ -5,7 +5,7 @@
     --color-present: var(--yellow-3);
     --color-correct: var(--green);
     --color-absent: var(--color-tone-2);
-    --tile-text-color: var(--color-tone-7);
+    --tile-text-color: var(--wordleBlack);
     --key-text-color: var(--color-tone-1);
     --key-evaluated-text-color: var(--color-tone-7);
     --key-bg: var(--color-tone-4);
@@ -27,6 +27,7 @@
 }
 
 .characterBox {
+    height: 100%;
     width: 100%;
     display: inline-flex;
     justify-content: center;
@@ -38,9 +39,10 @@
     box-sizing: border-box;
     color: var(--tile-text-color);
     text-transform: uppercase;
-    -webkit-user-select: none;
-    -moz-user-select: none;
     user-select: none;
+    background-color: var(--color-tone-7);
+    border: 2px solid var(--color-tone-3);
+    color: var(--color-tone-1);
 }
 
 .Unanswered {
@@ -65,8 +67,8 @@
     align-items: center;
     justify-content: flex-start;
     flex-wrap: nowrap;
-    padding: 0px var(--header-padding-x);
-    height: var(--header-height);
+    padding: 0px 20px;
+    height: 65px;
     color: var(--color-tone-1);
     border-bottom: 1px solid var(--color-tone-4);
 }
@@ -81,10 +83,13 @@
     padding: 0;
     align-items: center;
     justify-content: flex-start;
+    width: 350px;
 }
 
 .header-title {
     text-align: center;
+    width: 100%;
+    font-size: 36px;
 }
 
 .row {
@@ -93,4 +98,39 @@
     align-items: center;
     flex-grow: 1;
     overflow: hidden;
+}
+
+.game-container {
+    width: 350px;
+    height: 420px;
+    display: grid;
+    grid-template-rows: repeat(6, 1fr);
+    grid-gap: 5px;
+    padding: 10px;
+    box-sizing: border-box;
+    
+}
+
+.center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-grow: 1;
+    overflow: hidden;
+}
+
+.header-menu-right {
+    display: flex;
+    justify-content: flex-end;
+    width: 350px;
+}
+
+.header-icon {
+    padding: 0 6px;
+}
+
+.header-icon-left {
+    padding-top: 2px;
+    padding-left: 0px;
+    padding-right: 8px;
 }
