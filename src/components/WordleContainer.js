@@ -74,53 +74,47 @@ export default function WordleContainer( props ) {
 
 	function createNewColumnStates(row) {
 		let columnStates = []
+		let lastIndexOfPartialChars = {}
+		let totalNumberOfSecretChars = {}
 		for (let i = 0; i < 5; i++) {
-			if (secretWord.charAt(i).toUpperCase() === row.charAt(i).toUpperCase()) {
+			let secretChar = secretWord.charAt(i).toUpperCase()
+			if (! ( secretChar in totalNumberOfSecretChars ) ) {
+				totalNumberOfSecretChars[secretChar] = 1
+			} else {
+				totalNumberOfSecretChars[secretChar] = totalNumberOfSecretChars[secretChar] + 1
+			}
+		}
+
+		for (let i = 0; i < 5; i++) {
+			let char = row.charAt(i).toUpperCase()
+			let secretChar = secretWord.charAt(i).toUpperCase()
+
+
+			if (secretChar === char) {
 				columnStates[i] = CharacterState.Correct
+				if (totalNumberOfSecretChars[char] === 0) {
+					let wrongIndex = lastIndexOfPartialChars[char].pop()
+					columnStates[wrongIndex] = CharacterState.Wrong;
+				} else {
+					totalNumberOfSecretChars[char] = totalNumberOfSecretChars[char] - 1
+				}
 			} else {
 				let includesChar = secretWord.toUpperCase()
-					.includes(row.charAt(i).toUpperCase());
-				if (includesChar) {
+					.includes(char);
+				if (includesChar && totalNumberOfSecretChars[char] > 0) {
 					columnStates[i] = CharacterState.Partial
+
+					if (!(char in lastIndexOfPartialChars) ) {
+						lastIndexOfPartialChars[char] = [ i ]
+					} else {
+						lastIndexOfPartialChars[char].push(i)
+					}
+					totalNumberOfSecretChars[char] = totalNumberOfSecretChars[char] - 1;
 				} else {
 					columnStates[i] = CharacterState.Wrong
 				}
 			}
-		}
-
-		let partialIndex = columnStates.find((state) => state === CharacterState.Partial);
-		if (partialIndex !== undefined) {
-			let occurenceOfRow = countOccurenceOfLetters(row);
-			let occurenceOfSecret = countOccurenceOfLetters(secretWord);
-			// need to just count up the number times a letter appears in the word and secret word
-			let indexsOfPartial = []
-			let indexsOfCorrect = []
-			for (let i = 0; i < 5; i++) {
-				if (columnStates[i] === CharacterState.Partial) {
-					indexsOfPartial.push(i);
-				} else if (columnStates[i] === CharacterState.Correct) {
-					indexsOfCorrect.push(i);
-				}
-			}
-
-			console.log('CORRECT INDEXES: ' + indexsOfCorrect);
-			console.log('PARTIAL INDEXES: ' + indexsOfPartial);
-			let charThatNeedCorrected = [];
-			for (let i = 0; i < indexsOfPartial.length; i++) {
-				let index = indexsOfPartial[i]
-				let char = row.charAt(i).toUpperCase();
-				if (occurenceOfRow[char] > occurenceOfSecret[char] ) {
-					charThatNeedCorrected.push(char)
-				}
-			}
-			// for (let i = 0; i < charThatNeedCorrected.length; i++) {
-			// 	lastIndexOfChar = 0;
-			// 	foundChar = 0;
-			// 	for(let j = 0; j < 5; j++) {
-			// 		if (  )
-			// 	}
-			// }
-			console.log('CHAR THAT NEED CORRECTED: ' + charThatNeedCorrected);
+			
 		}
 		
 		return columnStates;
