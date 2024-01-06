@@ -9,13 +9,18 @@ import './ComponentStyling.scss'
  */
 export default function Row({
         rowIndex,
-        string
+        string,
+        columnStatuses
     }) {
         
     return (
         <div className="row">
             {string.split("").map((char, index) => 
-                <CharacterBox char={char} key={`${rowIndex}` + `${index}`} /> 
+                <CharacterBox 
+                    char={char}
+                    key={`${rowIndex}` + `${index}`}
+                    status={columnStatuses[index]}
+                    /> 
             )}
         </div>
     )

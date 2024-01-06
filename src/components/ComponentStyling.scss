@@ -50,15 +50,21 @@
     pointer-events: auto;
 }
 .Correct {
-    background-color: green;
+    background-color: var(--color-correct);
+    color: var(--color-tone-7);
+    border: none;
 }
 
 .Partial { 
-    background-color: yellow;
+    background-color: var(--color-present);
+    color: var(--color-tone-7);
+    border: none;
 }
 
 .Wrong {
-    background-color: grey;
+    background-color: var(--color-absent);
+    color: var(--color-tone-7);
+    border: none;
 }
 
 .header {
